@@ -17,12 +17,12 @@ This project consists of 2 different jobs to implement of risk management by fin
 
 System
 ------
-- Google Cloud Service: 
+- Google Cloud Service: Standalone deploy mode. 
   - Master node and workers for Apache Spark.
   - Name/Secondary node, Data nodes
 - iPython : For interactive analytics
-  - Setup with Pyspark module
-  - Setup for remote access to server
+  - configured with Pyspark module
+  - configured for remote access to master server
 - Apache Hadoop 1.2.1
   - Name Node, Secondary Name Node, Data Nodes
 - Apache Spark 1.0.2
@@ -51,17 +51,24 @@ Software Packages
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
   - ReadTickData.jar : Jar package from TickDataReadWrite.java
-    - Usage:
-
-    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite [ 0: 10 day 5 min data, 1: intra day 1 min data]`
   - You may want to create crontab for automatic operations for data collecting.
 - Computing Module
   - GetVar.py : Python file for computing Value-At-Risk of Portfolio using Apache Spark Python API.
 - sample file
   - sp500: Ticker list
 
+Usages
+------
 
-
-
-
+1. Replace the Hadoop File System paths in the TickDataReadWrite.java accordingly based on your particular directory structure. However, Yahoo Finance url should not change.
+2. Create Jar file then run it. 
+  - example:
+    For 10-day 5-min data
+    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite 0`
+    For 1-day 1-min data
+    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite 1`
+3. Start the ipython with pyspark loaded
+4. Connect to ipython server and run GetVar.py
+  - example:
+    `% run GetVar.py
 
