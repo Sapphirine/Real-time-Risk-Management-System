@@ -23,12 +23,16 @@ System
 - iPython : For interactive analytics
   - Setup with Pyspark module
   - Setup for remote access to server
-- Apache Hadoop
-- Apache Spark
+- Apache Hadoop 1.2.1
+  - Name Node, Secondary Name Node, Data Nodes
+- Apache Spark 1.0.2
+  - Master/Worker, Workers
 
 
 Software Packages
 -----------------
+- Directory Structure
+  
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
   - ReadTickData.jar : Jar package from TickDataReadWrite.java
