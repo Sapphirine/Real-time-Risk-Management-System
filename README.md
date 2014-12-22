@@ -27,11 +27,15 @@ System
   - Name Node, Secondary Name Node, Data Nodes
 - Apache Spark 1.0.2
   - Master/Worker, Workers
+- Directory Structure at Master Node
+  |-- bdproject
+  |   |-- data
+  |   |-- dailyData
 
 
 Software Packages
 -----------------
-- Directory Structure
+
   
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
