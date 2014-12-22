@@ -35,9 +35,18 @@ System
       |-- sp500 : file containing all tickers
 ```
 
+
 Software Packages
 -----------------
 
+- Quick View
+```  
+|-- bdproject/
+      |-- TickDataReadWrite.java
+      |-- ReadTickData.jar
+      |-- GetVar.py
+      |-- sp500
+```
   
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
