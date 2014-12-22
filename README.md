@@ -27,7 +27,7 @@ System
   - Name Node, Secondary Name Node, Data Nodes
 - Apache Spark 1.0.2
   - Master/Worker, Workers
-- Directory Structure of Hadoop file system at Master Node
+- Directory Structure of **Hadoop File System** at Master Node
 ```  
 |-- bdproject/
       |-- data/ : Storing 10-day-5min-Tick-data
@@ -39,7 +39,7 @@ System
 Software Packages
 -----------------
 
-- Quick View
+- Files at Master Node
 ```  
 |-- bdproject/
       |-- TickDataReadWrite.java
