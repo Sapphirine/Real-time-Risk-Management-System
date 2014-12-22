@@ -28,9 +28,10 @@ System
 - Apache Spark 1.0.2
   - Master/Worker, Workers
 - Directory Structure at Master Node
-  |-- bdproject
-  |   |-- data
-  |   |-- dailyData
+  /bdproject
+      data/ : Storing 10-day-5min-Tick-data
+      dailyData/ : Storing 1-day-1min-Tick-data
+      sp500 : file containing all tickers
 
 
 Software Packages
