@@ -74,5 +74,6 @@ Usages
 3. Start the ipython with pyspark loaded
 4. Connect to ipython server and run GetVar.py
   - example:
-    `% run GetVar.py
+  
+    `% run GetVar.py`
 
