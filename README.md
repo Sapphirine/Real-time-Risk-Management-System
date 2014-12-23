@@ -52,7 +52,7 @@ Software Packages
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
   - ReadTickData.jar : Jar package from TickDataReadWrite.java
-  - You may want to create crontab for automatic operations for data collecting.
+  - Using crontab or other utility for automated collecting.
 - Computing Module
   - GetVar.py : Python file for computing Value-At-Risk of Portfolio using Apache Spark Python API.
 - sample file
@@ -62,7 +62,7 @@ Usages
 ------
 
 1. Replace the Hadoop File System paths in the TickDataReadWrite.java accordingly based on your particular directory structure. However, Yahoo Finance url should not change.
-2. Create Jar file then run it. 
+2. Create Jar file then run it. Use Cron or other time based job scheduler for automatic data collecting. 10-day data will be collected once a day before market opens. 1-min data will be collected every 5 minutes while market opens 
   - example:
   
     For 10-day 5-min data
