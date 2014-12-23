@@ -66,11 +66,11 @@ Usages
   
     For 10-day 5-min data
 
-    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite 0`
+    `hadoop jar ReadTickData.jar com.cijhwang.hadoop.TickDataReadWrite 0`
     
     For 1-day 1-min data
     
-    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite 1`
+    `hadoop jar ReadTickData.jar com.cijhwang.hadoop.TickDataReadWrite 1`
 3. Start the ipython with pyspark loaded
 4. Connect to ipython server and run GetVar.py
   - example:
