@@ -3,6 +3,7 @@ Real-time-Risk-Management-System
 
 Team member: Iljoon Hwang (ih138), Sung Joon Huh (sh3246),  Sung Woo Yoo (sy2513)
 
+Project Website: https://chrisijhwang.wordpress.com/2014/12/23/big-data-analytics-project-from-columbia-university-class/
 
 Introduction
 ------------
