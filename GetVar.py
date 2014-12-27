@@ -32,7 +32,7 @@ def prod(x):
 
 def mc(x):
     res_ls=[]
-    for i in range(1000):
+    for i in range(10000):
        res_ls.append( x[0] + x[1]*rd.gauss(0,1) )
     return res_ls
 
@@ -42,6 +42,8 @@ def baseRoutine1(ticks, sc):
     Close_FM_rdd_dict={}# dict RDD: storing all 5 min close price of someTick as in float 
     Close_daily_rdd_dict={} # dict RDD: storing all close 1 min price of tickers as in float
     Close_rdd_dict={} # combined dict RDD: storing all close price of someTick as in float 
+    ret_float_rdd={} # dict RDD: strong all ret of target someTick as in float
+    ret_dict={} # dict : strong all ret of target tickers
 
     for t in ticks:
         fileLoc = "hdfs://master:8020/user/hwang/data/" + t
@@ -89,6 +91,7 @@ def baseRoutine1(ticks, sc):
     # end of for
 
     # 6. finding each asset values and portfolio values from monte carlo
+
     i =0
     MC_port=[]
     result_mc_dict={}
@@ -122,20 +125,22 @@ def baseRoutine1(ticks, sc):
     VaR95 = VaR95.tolist()
     VaR95 = VaR95[0]
 
-    return VaR_each, VaR95
+    return VaR_each, VaR95, Close_rdd_dict 
 
-# main routine
-
-appName ='GetVar'
+appName ='Real Time Risk Management'
 conf = SparkConf().setAppName(appName).setMaster('spark://master:7077').set("spark.executor.memory", "1g")
 sc = SparkContext(conf=conf)
 sym = tick_list("./sp500")
 sym100 = sym[-100:]
 
 start_time = time.time()
-[VaR_each, VaR, Close_rdd_dict] = baseRoutine1(sym, sc)
-print VaR_each
-print VaR
+#[a, b, Close_rdd_dict] = baseRoutine1(['AA', 'AAPL'], sc)
+#[a, b, Close_float_rdd, ret_float_rdd] = baseRoutine1(['AA', 'AAPL'], sc)
+#[VaR, VaR_Total, Close_float_rdd, ret_float_rdd] = baseRoutine1(sym, sc)
+[a, b, Close_rdd_dict] = baseRoutine1(sym100, sc)
+#[a, b, Close_rdd_dict] = baseRoutine1(sym, sc)
+print a # VaR of each
+print b # VaR of portfolio
 end_time= time.time()
 print('Duration: {}'.format(end_time - start_time))
 
