@@ -3,6 +3,7 @@ Real-time-Risk-Management-System
 
 Team member: Iljoon Hwang (ih138), Sung Joon Huh (sh3246),  Sung Woo Yoo (sy2513)
 
+Project Website: https://chrisijhwang.wordpress.com/2014/12/23/big-data-analytics-project-from-columbia-university-class/
 
 Introduction
 ------------
@@ -17,32 +18,63 @@ This project consists of 2 different jobs to implement of risk management by fin
 
 System
 ------
-- Google Cloud Service: 
+- Google Cloud Service: Standalone deploy mode. 
   - Master node and workers for Apache Spark.
   - Name/Secondary node, Data nodes
 - iPython : For interactive analytics
-  - Setup with Pyspark module
-  - Setup for remote access to server
-- Apache Hadoop
-- Apache Spark
+  - configured with Pyspark module
+  - configured for remote access to master server
+- Apache Hadoop 1.2.1
+  - Name Node, Secondary Name Node, Data Nodes
+- Apache Spark 1.0.2
+  - Master/Worker, Workers
+- Directory Structure of **Hadoop File System**
+```  
+|-- bdproject/
+      |-- data/ : Storing 10-day-5min-Tick-data
+      |-- dailyData/ : Storing 1-day-1min-Tick-data
+      |-- sp500 : file containing all tickers
+```
 
 
 Software Packages
 -----------------
+
+- Files at Master Node
+```  
+|-- bdproject/
+      |-- TickDataReadWrite.java
+      |-- ReadTickData.jar
+      |-- GetVar.py
+      |-- sp500
+```
+  
 - Data Collecting Module
   - TickDataReadWrite.java : Jave file for data collecting and write them to Apache Hadoop Ditributed File System.
   - ReadTickData.jar : Jar package from TickDataReadWrite.java
-    - Usage:
-
-    `hadoop jar com.cijhwang.hadoop.TickDataReadWrite [ 0: 10 day 5 min data, 1: intra day 1 min data]`
-  - You may want to create crontab for automatic operations for data collecting.
+  - Using crontab or other utility for automated collecting.
 - Computing Module
   - GetVar.py : Python file for computing Value-At-Risk of Portfolio using Apache Spark Python API.
 - sample file
   - sp500: Ticker list
 
+Usages
+------
 
+1. Replace the Hadoop File System paths in the TickDataReadWrite.java accordingly based on your particular directory structure. However, Yahoo Finance url should not change.
+2. Create Jar file then run it. Use Cron or other time based job scheduler for automatic data collecting. 10-day data will be collected once a day before market opens. 1-min data will be collected every 5 minutes while market opens 
+  - example:
+  
+    For 10-day 5-min data
 
-
-
+    `hadoop jar ReadTickData.jar com.cijhwang.hadoop.TickDataReadWrite 0`
+    
+    For 1-day 1-min data
+    
+    `hadoop jar ReadTickData.jar com.cijhwang.hadoop.TickDataReadWrite 1`
+3. Start the ipython with pyspark loaded
+4. Connect to ipython server and run GetVar.py
+  - example:
+  
+    `% run GetVar.py`
 
