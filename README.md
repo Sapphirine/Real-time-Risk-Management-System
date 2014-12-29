@@ -46,6 +46,7 @@ Software Packages
       |-- TickDataReadWrite.java
       |-- ReadTickData.jar
       |-- GetVar.py
+      |-- GetVar_least_spark.py
       |-- sp500
 ```
   
@@ -55,6 +56,7 @@ Software Packages
   - Using crontab or other utility for automated collecting.
 - Computing Module
   - GetVar.py : Python file for computing Value-At-Risk of Portfolio using Apache Spark Python API.
+  - GetVar_least_spark.py : Python file for comparing the performance of plain python and the Apache Spark. It uses Apache Spark Python API only for accessing hadoop files. It didn't use any other Apache Spark Python API for computing VaR.
 - sample file
   - sp500: Ticker list
 
