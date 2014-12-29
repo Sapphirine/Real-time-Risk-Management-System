@@ -1,6 +1,5 @@
 '''
-    Copyright [2014]
-    [Iljoon Hwang, ih138@columbia.edu
+    Copyright [2014] [Iljoon Hwang, ih138@columbia.edu
     Sung Joon Huh, sh3246@columbia.edu]
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,12 +37,14 @@ def mc(x):
 
 def baseRoutine1(ticks, sc):
 
+
     # 1. reading file again to Close dictionary containig RDD of close price
     Close_FM_rdd_dict={}# dict RDD: storing all 5 min close price of someTick as in float 
     Close_daily_rdd_dict={} # dict RDD: storing all close 1 min price of tickers as in float
     Close_rdd_dict={} # combined dict RDD: storing all close price of someTick as in float 
     ret_float_rdd={} # dict RDD: strong all ret of target someTick as in float
     ret_dict={} # dict : strong all ret of target tickers
+    lenOfRet = [] # the number of elements in return of each tickers
 
     for t in ticks:
         fileLoc = "hdfs://master:8020/user/hwang/data/" + t
@@ -64,14 +65,27 @@ def baseRoutine1(ticks, sc):
     for t in ticks:
         price_arr = np.array(Close_rdd_dict[t].collect())
         temp = (price_arr[1:] - price_arr[:-1])/price_arr[:-1]
+        ret_dict[t] = temp.tolist()
+        lenOfRet.append(len(ret_dict[t]))
 	ret_rdd_dict[t] = sc.parallelize(temp.tolist())
     # end of for
+
+    # create dataframe containing returns of each tickers
+    n = min(lenOfRet)
+    ret_dict_n={} # storing same number of returns of each ticker
+    for t in ticks:
+        ret_dict_n[t]= ret_dict[t][-n:]
+
+    ret_df =pd.DataFrame.from_dict(ret_dict_n)
+
 
     # 3. create mu sigma tuples in list
     mu_sigma_ls =[]
 
     for t in ticks:
 	mu_sigma_ls.append( (t, [ret_rdd_dict[t].mean(), ret_rdd_dict[t].stdev()] ) )
+    
+
     # end of for
 	
     # 4. monte carlo
@@ -107,8 +121,9 @@ def baseRoutine1(ticks, sc):
 
     result_mc_df = pd.DataFrame(result_mc_dict, columns=ticks)
 
-    temp = result_mc_df.corr()
-    corrM = np.matrix(temp)
+    #temp = result_mc_df.corr()
+    temp1 = ret_df.corr()
+    corrM = np.matrix(temp1)
     all_sorted_MC_df = pd.DataFrame(pd.concat([result_mc_df[col].order().reset_index(drop=True) for col in result_mc_df], axis=1, ignore_index=True))
     all_sorted_MC_df.columns = ticks
 
@@ -118,7 +133,7 @@ def baseRoutine1(ticks, sc):
 
     temp_var = np.matrix(np.transpose(np.array(temp_ls)))
     VaR_each = pd.DataFrame(temp_var, index=range(1), columns=ticks)
-    temp_ls = np.array(temp_ls)
+    temp_ls = np.array(temp_ls) 
     MC_mat = np.matrix(temp_ls)
 
     VaR95 = np.sqrt(MC_mat*corrM*np.transpose(MC_mat)) 
@@ -134,11 +149,9 @@ sym = tick_list("./sp500")
 sym100 = sym[-100:]
 
 start_time = time.time()
-#[a, b, Close_rdd_dict] = baseRoutine1(['AA', 'AAPL'], sc)
-#[a, b, Close_float_rdd, ret_float_rdd] = baseRoutine1(['AA', 'AAPL'], sc)
-#[VaR, VaR_Total, Close_float_rdd, ret_float_rdd] = baseRoutine1(sym, sc)
-[a, b, Close_rdd_dict] = baseRoutine1(sym100, sc)
-#[a, b, Close_rdd_dict] = baseRoutine1(sym, sc)
+#[a, b, Close_rdd_dict] = baseRoutine1(['AA', 'AAPL'], sc) # for testing 2 tickers
+#[a, b, Close_rdd_dict] = baseRoutine1(sym100, sc) # 100 tickers
+[a, b, Close_rdd_dict] = baseRoutine1(sym, sc) # 500 tickers
 print a # VaR of each
 print b # VaR of portfolio
 end_time= time.time()
