@@ -92,7 +92,8 @@ public class TickDataReadWrite{
 		 BufferedReader breader = null;
 		 try {
 			String line;
-			breader = new BufferedReader(new FileReader("/home/hwang/bdproject/sp500"));
+//			breader = new BufferedReader(new FileReader("/home/hwang/bdproject/sp500"));
+			breader = new BufferedReader(new FileReader("/user/hduser/Real-time-Risk-Management-System/sp500"));
 			while ( (line=breader.readLine()) != null) {
 				result.add(line.split("\\t")[0]);
 			}
